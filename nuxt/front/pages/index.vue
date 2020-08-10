@@ -28,6 +28,19 @@
             />
             {{ rating }}
           </div>
+          <div>
+            <v-btn @click="getMovieList">映画情報の取得！</v-btn>
+          </div>
+          <v-row>
+            <v-col
+              cols="6"
+              v-for="result in results"
+              :key=result.id
+            >
+              <v-img :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + result.poster_path" />
+              {{ result.title }}
+            </v-col>
+          </v-row>
         </v-col>
         <v-col 
           class="color-blue"
@@ -59,6 +72,7 @@ export default {
   data() {
     return {
       rating: 0,
+      results: [],
     }
   },
   async mounted(){
@@ -69,6 +83,16 @@ export default {
   methods: {
     next() {
       console.log("評価したよ！")
+    },
+    async getMovieList(){
+      const url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page=1'
+      await this.$axios.get(url)
+      .then(response => {
+        this.results = response.data.results
+        console.log(this.results)
+      }).catch(err => {
+        console.log('err:', err);
+      });
     }
   }
 }
