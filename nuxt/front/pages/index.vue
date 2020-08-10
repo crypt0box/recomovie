@@ -15,10 +15,19 @@
           スキップ
         </v-col>
         <v-col 
-          class="color-green"
           cols="10"
         >
           メイン
+          <div class="text-center">
+            <v-rating 
+              v-model="rating"
+              size=64
+              color="orange"
+              half-increments
+              @input="next"
+            />
+            {{ rating }}
+          </div>
         </v-col>
         <v-col 
           class="color-blue"
@@ -49,13 +58,18 @@ export default {
   },
   data() {
     return {
-      dat: []
+      rating: 0,
     }
   },
   async mounted(){
     const url = "/api/get_person/" 
     const response = await this.$axios.get(url)
     this.dat = response.data
+  },
+  methods: {
+    next() {
+      console.log("評価したよ！")
+    }
   }
 }
 </script>
