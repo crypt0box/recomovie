@@ -11,6 +11,7 @@
         <v-col 
           class="color-red"
           cols="1"
+          @click="skip"
         >
           スキップ
         </v-col>
@@ -45,15 +46,9 @@
         <v-col 
           class="color-blue"
           cols="1"
+          @click="myList"
         >
           気になる
-        </v-col>
-      </v-row>
-      <v-row style="height: 10%;">
-        <v-col
-          class="color-white"
-        >
-          bottom
         </v-col>
       </v-row>
     </v-flex>
@@ -83,6 +78,12 @@ export default {
   methods: {
     next() {
       console.log("評価したよ！")
+    },
+    skip() {
+      console.log('sikipをクリックしたよ')
+    },
+    myList() {
+      console.log('「気になる」をクリックしたよ')
     },
     async getMovieList(){
       const url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page=1'
