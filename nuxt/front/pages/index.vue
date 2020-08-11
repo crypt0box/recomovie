@@ -11,7 +11,7 @@
         <v-col 
           class="color-red"
           cols="1"
-          @click="skip"
+          @click="skip(); counter()"
         >
           スキップ
         </v-col>
@@ -25,28 +25,30 @@
               size=64
               color="orange"
               half-increments
-              @input="next"
+              @input="next(); counter()"
             />
             {{ rating }}
           </div>
-          <div>
-            <v-btn @click="getMovieList">映画情報の取得！</v-btn>
-          </div>
-          <v-row>
-            <v-col
-              cols="6"
-              v-for="result in results"
-              :key=result.id
-            >
-              <v-img :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + result.poster_path" />
-              {{ result.title }}
-            </v-col>
+          <v-row justify="center">
+            <v-img 
+              :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + poster_path[cnt]"
+              max-width="300"
+              max-height="424"
+              width="300"
+              height="424"
+            />
+          </v-row>
+          <v-row 
+            class="mt-3"
+            justify="center"
+          >
+            <h1>{{ title[cnt] }}</h1>
           </v-row>
         </v-col>
         <v-col 
           class="color-blue"
           cols="1"
-          @click="myList"
+          @click="myList(); counter()"
         >
           気になる
         </v-col>
@@ -66,14 +68,26 @@ export default {
   },
   data() {
     return {
+      cnt: 0,
       rating: 0,
       results: [],
+      title: [],
+      poster_path: [],
     }
   },
   async mounted(){
-    const url = "/api/get_person/" 
-    const response = await this.$axios.get(url)
-    this.dat = response.data
+    const url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page=1'
+    await this.$axios.get(url)
+    .then(response => {
+      this.results = response.data.results
+      this.results.forEach(element => {
+        this.title.push(element.title)
+        this.poster_path.push(element.poster_path)
+      });
+      console.log('res:', this.results)
+    }).catch(err => {
+      console.log('err:', err);
+    });
   },
   methods: {
     next() {
@@ -85,15 +99,8 @@ export default {
     myList() {
       console.log('「気になる」をクリックしたよ')
     },
-    async getMovieList(){
-      const url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page=1'
-      await this.$axios.get(url)
-      .then(response => {
-        this.results = response.data.results
-        console.log(this.results)
-      }).catch(err => {
-        console.log('err:', err);
-      });
+    counter() {
+      this.cnt += 1
     }
   }
 }
