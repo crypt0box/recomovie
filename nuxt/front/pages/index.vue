@@ -20,14 +20,22 @@
         >
           メイン
           <div class="text-center">
-            <v-rating 
+            {{ rating }}
+            <v-rating
               v-model="rating"
               size=64
               color="orange"
+              close-delay=10
               half-increments
-              @input="next(); counter()"
-            />
-            {{ rating }}
+            /> 
+            <v-btn
+              class="mb-3"
+              color="orange"
+              outlined
+              @click="submit(); counter()"
+            >
+            評価する
+            </v-btn>
           </div>
           <v-row justify="center">
             <v-img 
@@ -90,8 +98,9 @@ export default {
     });
   },
   methods: {
-    next() {
+    submit() {
       console.log("評価したよ！")
+      this.rating = 0
     },
     skip() {
       console.log('sikipをクリックしたよ')
