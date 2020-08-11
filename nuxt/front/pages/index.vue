@@ -77,6 +77,7 @@ export default {
   data() {
     return {
       cnt: 0,
+      page: 1,
       rating: 0,
       results: [],
       title: [],
@@ -84,8 +85,10 @@ export default {
     }
   },
   async mounted(){
-    const url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page=1'
-    await this.$axios.get(url)
+    const baseUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page='
+    let page = `${this.page}`
+    const getUrl = baseUrl + page
+    await this.$axios.get(getUrl)
     .then(response => {
       this.results = response.data.results
       this.results.forEach(element => {
@@ -110,6 +113,30 @@ export default {
     },
     counter() {
       this.cnt += 1
+      if (this.cnt >= 20) {
+        this.page += 1
+        this.cnt = 0
+        this.title = []
+        this.poster_path = []
+        this.getMovieList()
+        console.log(this.page)
+      }
+    },
+    async getMovieList() {
+      const baseUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=b94cb735cf0f288b14e0cde950ecea98&language=ja&page='
+      let page = `${this.page}`
+      const getUrl = baseUrl + page
+      await this.$axios.get(getUrl)
+      .then(response => {
+        this.results = response.data.results
+        this.results.forEach(element => {
+          this.title.push(element.title)
+          this.poster_path.push(element.poster_path)
+        });
+        console.log('res:', this.results)
+      }).catch(err => {
+        console.log('err:', err);
+      });
     }
   }
 }
