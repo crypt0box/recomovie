@@ -6,6 +6,7 @@ from myapp.models import Person_data
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework import viewsets
 
 from .renderers import PersonJSONRenderer
 from .serializers import PersonSerializer
@@ -18,3 +19,7 @@ class PersonListApiView(ListAPIView):
     permission_classes = (AllowAny, )
     renderer_classes = (PersonJSONRenderer, ) # Rendererを指定
     serializer_class = PersonSerializer # Serializerを指定
+
+class PersonDataViewSet(viewsets.ModelViewSet):
+    serializer_class = PersonSerializer
+    queryset = Person_data.objects.all()
