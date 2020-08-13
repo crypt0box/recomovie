@@ -82,6 +82,10 @@ export default {
       results: [],
       title: [],
       poster_path: [],
+      person_data: {
+        person_name: 'test',
+        person_age: 0,
+      }
     }
   },
   async mounted(){
@@ -101,8 +105,20 @@ export default {
     });
   },
   methods: {
-    submit() {
+    async submit() {
       console.log("評価したよ！")
+      const url = "/api/persondata/" 
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      const formData = new FormData()
+      for (const data in this.person_data) {
+        formData.append(data, this.person_data[data])
+      }
+      await this.$axios.$post(url, formData, config)
+      .then(response => {
+        console.log(response)
+      })
       this.rating = 0
     },
     skip() {
