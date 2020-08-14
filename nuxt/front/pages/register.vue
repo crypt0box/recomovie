@@ -88,14 +88,22 @@ export default {
     }
   },
   methods: {
-    register() {
-      axios.post('/accounts:signUp?key=AIzaSyBKwaAN9FoKSNznMaONL9cte9CA5I_zEmY',
+    async register() {
+      await axios.post('/accounts:signUp?key=AIzaSyBKwaAN9FoKSNznMaONL9cte9CA5I_zEmY',
       {
         email: this.email,
         password: this.password,
         returnSecureToken: true
       }).then(response => {
         console.log(response)
+        const url = "/api/persondata/" 
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' }
+        }
+        const formData = new FormData()
+        formData.append('person_name', response.data.localId)
+        formData.append('person_age', 0)
+        this.$axios.post(url, formData, config)
       });
     }
   }
