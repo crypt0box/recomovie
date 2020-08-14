@@ -10,6 +10,7 @@ ENV NODE_ENV=development
 # yarnとaxiosをinstall
 RUN yarn install
 RUN yarn add @nuxtjs/axios
+RUN yarn add firebase --save
 
 # ディレクトリを移動する
 WORKDIR /code
