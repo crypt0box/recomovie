@@ -20,9 +20,9 @@
         >
           メイン
           <div class="text-center">
-            {{ rating }}
+            {{ movie_review_data.rate }}
             <v-rating
-              v-model="rating"
+              v-model="movie_review_data.rate"
               size=64
               color="orange"
               close-delay=10
@@ -78,13 +78,13 @@ export default {
     return {
       cnt: 0,
       page: 1,
-      rating: 0,
       results: [],
       title: [],
       poster_path: [],
-      person_data: {
-        person_name: 'test',
-        person_age: 0,
+      movie_review_data: {
+        user_id: 0,
+        movie_id: 0,
+        rate: 0,
       }
     }
   },
@@ -99,6 +99,7 @@ export default {
         this.title.push(element.title)
         this.poster_path.push(element.poster_path)
       });
+      this.movie_review_data.movie_id = this.results[0].id
       console.log('res:', this.results)
     }).catch(err => {
       console.log('err:', err);
@@ -107,19 +108,19 @@ export default {
   methods: {
     async submit() {
       console.log("評価したよ！")
-      const url = "/api/persondata/" 
+      const url = "/api/movie_review/" 
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
       const formData = new FormData()
-      for (const data in this.person_data) {
-        formData.append(data, this.person_data[data])
+      for (const data in this.movie_review_data) {
+        formData.append(data, this.movie_review_data[data])
       }
       await this.$axios.$post(url, formData, config)
       .then(response => {
         console.log(response)
       })
-      this.rating = 0
+      this.movie_review_data.rate = 0
     },
     skip() {
       console.log('sikipをクリックしたよ')
@@ -129,6 +130,8 @@ export default {
     },
     counter() {
       this.cnt += 1
+      this.movie_review_data.movie_id = this.results[this.cnt].id
+      console.log(this.movie_review_data)
       if (this.cnt >= 20) {
         this.page += 1
         this.cnt = 0
