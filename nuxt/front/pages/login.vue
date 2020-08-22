@@ -95,8 +95,10 @@ export default {
         password: this.password,
         returnSecureToken: true
       }).then(response => {
-        console.log(response)
+        console.log('ログインに成功したよ')
+        localStorage.setItem('idToken', response.data.idToken)
       });
+      this.$router.push('/')
     }
   }
 }

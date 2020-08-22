@@ -66,14 +66,9 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import axios from '../axios-auth'
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  },
   data() {
     return {
       cnt: 0,
@@ -104,6 +99,7 @@ export default {
     }).catch(err => {
       console.log('err:', err);
     });
+    this.getUserInfo()
   },
   methods: {
     async submit() {
@@ -156,6 +152,13 @@ export default {
       }).catch(err => {
         console.log('err:', err);
       });
+    },
+    async getUserInfo() {
+      await axios.post('/accounts:lookup?key=AIzaSyBKwaAN9FoKSNznMaONL9cte9CA5I_zEmY', {
+        idToken: localStorage.getItem('idToken')
+      }).then(response => {
+          this.movie_review_data.user_id = response.data.users[0].localId
+        })
     }
   }
 }
