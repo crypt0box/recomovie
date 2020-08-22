@@ -1,12 +1,6 @@
 from django.db import models
 from django.core import validators
 
-# Create your models here.
-class Person_data(models.Model):
-    person_name = models.TextField()
-    person_age = models.IntegerField()
-
-
 class reco(models.Model):
   user_id = models.IntegerField(
     verbose_name='user_id',

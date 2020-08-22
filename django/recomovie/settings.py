@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't69ia1g2!v-&_k#s=mo_oof5yot0+184q)@@swy%81=n!t4e&f'
+SECRET_KEY = 'syzl8!_t13f@^j43-^v*1wyj=e#j6q@syppiw)58xhya6foigu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,11 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'rest_framework',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -84,6 +82,13 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -122,14 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
