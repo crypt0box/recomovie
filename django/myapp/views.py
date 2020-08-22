@@ -8,6 +8,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
 
+from .renders import MovieJSONRenderer
 from .serializers import RecoSerializer, RankSerializer
 
 import pandas as pd
@@ -120,4 +121,5 @@ class RecoMovieApi(ListAPIView):
   # APIの結果(json形式)
   model = RankId
   queryset = RankId.objects.all() # Nuxt.jsに渡すデータ
+  renderer_classes = (MovieJSONRenderer, )
   serializer_class = RankSerializer
