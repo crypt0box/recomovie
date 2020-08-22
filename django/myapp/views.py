@@ -1,31 +1,17 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from myapp.models import Person_data, reco, rank_id
+from myapp.models import reco, rank_id
 
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
 
-from .renderers import PersonJSONRenderer
-from .serializers import PersonSerializer, RankSerializer
+from .serializers import RankSerializer
 
 import pandas as pd
 import numpy as np
-
-# Create your views here.
-
-class PersonListApiView(ListAPIView):
-    model = Person_data # モデルを指定
-    queryset = Person_data.objects.all()
-    permission_classes = (AllowAny, )
-    renderer_classes = (PersonJSONRenderer, ) # Rendererを指定
-    serializer_class = PersonSerializer # Serializerを指定
-
-class PersonDataViewSet(viewsets.ModelViewSet):
-    serializer_class = PersonSerializer
-    queryset = Person_data.objects.all()
 
 # ユーザー同士がどれだけ似ているかを求める(相関係数を求める)
 def get_correlation_coefficents(scores, target_user_index):
@@ -93,25 +79,33 @@ class RecoMovieApi(ListAPIView):
 
   # 扱いやすい形にデータを整える(欠損値:評価なしの部分に-1を入れる)
   movie_pivot = df.pivot(index= 'user_id', columns= 'movie_id', values= 'rate').fillna(-1)
-
+  
   # numpy配列に変換する
   scores = np.array(movie_pivot)
-  print(scores)
 
   # 対象のユーザーid -1 (※ユーザーidが1から始まっている場合、-1する)
-  user_id = 1
+  user_id = 3
   target_user_index = user_id -1
+  
   # 相関係数を求める
   similarities = get_correlation_coefficents(scores, target_user_index)
-  # おすすめの出力
-  rank = rank_items(scores, similarities, target_user_index)
-  rank = np.array(rank)
-  rank = rank[: , 0]
-  
+
+  # おすすめの映画の列を出力
+  rank_c = rank_items(scores, similarities, target_user_index)
+  rank_c = np.array(rank_c, dtype=np.int32)
+  rank_c = rank_c[: , 0]
+
+  # 出力された列から映画のIDを抽出する
+  rank = []
+  for i in rank_c:
+    a = movie_pivot.columns.values[i]
+    rank = np.append(rank, a)
+
   # 上位3つのおすすめを出力する(足りない場合はその分だけ0を返す)
   if len(rank) < 3:
     zero = np.zeros(3 - len(rank), dtype= int)
     rank = np.r_[rank, zero]
+
   # rank_idのモデルで定義されたデータに結果を追加する(古いおすすめは消す)
   rank_id.objects.all().delete()
   rank_id.objects.create(rank1=rank[0],rank2=rank[1],rank3=rank[2])
