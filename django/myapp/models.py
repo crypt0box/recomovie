@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import validators
 
-class reco(models.Model):
+class MovieReview(models.Model):
   user_id = models.IntegerField(
     verbose_name='user_id',
     blank=True,
@@ -17,7 +17,7 @@ class reco(models.Model):
     null=True,
     default=0,
     validators=[validators.MinValueValidator(0),
-                validators.MaxValueValidator(100)]
+                validators.MaxValueValidator(1000000)]
   )
 
   rate = models.FloatField(
@@ -25,7 +25,7 @@ class reco(models.Model):
     blank=True,
     null=True,
     default=0,
-    validators=[validators.MinValueValidator(1.),
+    validators=[validators.MinValueValidator(0.),
                 validators.MaxValueValidator(5.)]
   )
 
