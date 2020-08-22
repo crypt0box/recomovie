@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from .models import MovieReview, rank_id
-from .models import MovieReview, rank_id
+from .models import RecoData, RankId
 
-class ReviewSerializer(serializers.ModelSerializer):
+class RecoSerializer(serializers.ModelSerializer):
   class Meta:
-    model = MovieReview
+    model = RecoData
     fields = '__all__'
 
 class RankSerializer(serializers.ModelSerializer):
   class Meta:
-    model = rank_id
+    model = RankId
     fields = ('rank1','rank2','rank3')
