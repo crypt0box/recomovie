@@ -76,13 +76,13 @@ def rank_items(scores, similarities, target_user_index):
 class RecoMovieApi(ListAPIView):
   # 全ユーザーデータをデータベースからクエリセットで読み込む
   user_data = RecoData.objects.all()
-
+  
   # クエリセットをデータフレームに変換する
   df = pd.DataFrame(list(user_data.values()))
 
   # 不要な行のデータ(id)を除外する
   df = df.drop(columns='id')
-
+  
   # 扱いやすい形にデータを整える(欠損値:評価なしの部分に-1を入れる)
   movie_pivot = df.pivot(index= 'user_id', columns= 'movie_id', values= 'rate').fillna(-1)
   
@@ -90,7 +90,7 @@ class RecoMovieApi(ListAPIView):
   scores = np.array(movie_pivot)
 
   # 対象のユーザーid -1 (※ユーザーidが1から始まっている場合、-1する)
-  user_id = 'DaikichiDAYO'
+  user_id = 'choco'
   user_index = len(movie_pivot[:user_id])
   target_user_index = user_index -1
   
