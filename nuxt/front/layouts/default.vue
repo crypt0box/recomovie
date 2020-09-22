@@ -1,12 +1,18 @@
 <template>
   <v-app dark>
-    <v-toolbar
-      class="fill-width"
-      max-height="50"
-      dense
-    >
-      <v-toolbar-title>recomovie</v-toolbar-title>
-    </v-toolbar>
+    <header class="header">
+      <v-row justify="center">
+        <v-btn text to="/">
+          HOME
+        </v-btn>
+        <v-btn text to="/result">
+          RESULT
+        </v-btn>
+        <v-btn text>
+          LOGIN
+        </v-btn>
+      </v-row>
+    </header>
     <v-main>
       <v-container>
         <nuxt />
@@ -19,6 +25,9 @@
 </template>
 
 <style scoped>
+.header {
+  padding: 1%;
+}
 .fill-width {
   width: 100%;
 }
