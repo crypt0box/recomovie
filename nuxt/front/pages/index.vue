@@ -69,6 +69,7 @@
 import axios from '../axios-auth'
 
 export default {
+  middleware: 'authenticated',
   data() {
     return {
       cnt: 0,
