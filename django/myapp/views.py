@@ -90,7 +90,7 @@ class RecoMovieApi(ListAPIView):
   scores = np.array(movie_pivot)
 
   # 対象のユーザーid -1 (※ユーザーidが1から始まっている場合、-1する)
-  user_id = 'choco'
+  user_id = 'pvs03WID7AQ2cVzcgjvZ5SuKJtT2'
   user_index = len(movie_pivot[:user_id])
   target_user_index = user_index -1
   
