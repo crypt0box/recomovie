@@ -1,24 +1,34 @@
 <template>
 <div>
-  <h1>結果ページだよ</h1>
-  <v-btn @click="getResults">おしなさい</v-btn>
-  <div v-for="n in 3" :key="n">
-    <v-row justify="center">
-      <v-img 
-        :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + poster_path[n]"
-        max-width="300"
-        max-height="424"
-        width="300"
-        height="424"
-      />
-    </v-row>
-    <v-row 
-      class="mt-3"
-      justify="center"
-    >
-      <h1>{{ title[n] }}</h1>{{ n }}
-    </v-row>
-  </div>
+  <v-row justify="center">
+    <h1>あなへのおすすめ</h1>
+  </v-row>
+  <v-row justify="center">
+    <v-btn 
+      color="orange"
+      outlined
+      @click="getResults"
+    >結果を見る</v-btn>
+  </v-row>
+  <v-row>
+    <v-col v-for="n in 3" :key="n">
+      <v-row justify="center">
+        <v-img 
+          :src="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + poster_path[n]"
+          max-width="300"
+          max-height="424"
+          width="300"
+          height="424"
+        />
+      </v-row>
+      <v-row 
+        class="mt-3"
+        justify="center"
+      >
+        <h1>{{ title[n] }}</h1>
+      </v-row>
+    </v-col>
+  </v-row>
 </div>
 </template>
 
