@@ -66,8 +66,8 @@
               </v-btn>
             <v-divider></v-divider>
             <div class="pt-8 pb-4">
-              <span>すでにアカウントをお持ちですか？</span>
-              <nuxt-link to="/login">ログインに移動</nuxt-link>
+              <span>アカウントをお持ちでない方はこちら</span>
+              <nuxt-link to="/register">新規会員登録</nuxt-link>
             </div>
             </div>
           </div>
